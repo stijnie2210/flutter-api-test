@@ -33,12 +33,16 @@ class _MyHomePageState extends State<MyHomePage> {
   String selectedPlayerName;
   String selectedPlayerSquadNumber;
   String selectedPlayerPosition;
+  String selectedPlayerNationality;
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title),
+        actions: <Widget>[
+          new IconButton(icon: const Icon(Icons.refresh), onPressed: _doUpdate),
+        ],
       ),
       body: Center(
         child: FutureBuilder<Competition>(
@@ -58,7 +62,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _buildRow(String squadNumber, String name, String position) {
+  void _doUpdate() {
+    setState(() {
+        fetchCompetition();
+    });
+  }
+
+  Widget _buildRow(String squadNumber, String name, String position, String nationality) {
     return ListTile(
       leading: new CircleAvatar(
         child: new Text(squadNumber)
@@ -73,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
         this.selectedPlayerName = name;
         this.selectedPlayerPosition = position;
         this.selectedPlayerSquadNumber = squadNumber;
+        this.selectedPlayerNationality = nationality;
         _detailPage();
       }
     );
@@ -82,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
     List<Widget> list = new List<Widget>();
     for(var i = 0; i < players.length; i++) {
       print(players[i]);
-      list.add(_buildRow(players[i]['jerseyNumber'].toString(), players[i]['name'], players[i]['position']));
+      list.add(_buildRow(players[i]['jerseyNumber'].toString(), players[i]['name'], players[i]['position'], players[i]['nationality']));
     }
 
     return list;
@@ -104,16 +115,24 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           body: new Container(
             padding: const EdgeInsets.only(top: 50.0),
-            child: new Row(
+            child: new Column(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [new CircleAvatar(
                 child: new Text(
                   selectedPlayerSquadNumber,
-                  style: TextStyle(fontSize: 36.0),
+                  style: TextStyle(fontSize: 30.0),
+                  softWrap: false,
                 ),
                 maxRadius: 56.0,
-              )],
+              ),
+              new Text(
+                '\n Position: $selectedPlayerPosition\n \n Nationality: $selectedPlayerNationality',
+                style: TextStyle(fontSize: 36.0),
+                textAlign: TextAlign.center,
+              )
+              ],
             ),
           )
         );
