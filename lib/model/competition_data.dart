@@ -7,7 +7,7 @@ final String url = "http://api.football-data.org/v1/teams/678/players";
 
 Future<Competition> fetchCompetition() async {
   final response = 
-    await http.get(url);
+    await http.get(url, headers: {'X-Auth-Token': '174ecaa9ba3044809e66a6496dfdef0c'});
 
   if(response.statusCode == 200) {
     Map decoded = json.decode(response.body);

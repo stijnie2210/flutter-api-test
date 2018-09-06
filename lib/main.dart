@@ -66,12 +66,16 @@ class _MyHomePageState extends State<MyHomePage> {
       subtitle: new Text(
         position
       ),
+      onTap: () => {
+
+      },
     );
   }
 
   List<Widget> _widgets() {
     List<Widget> list = new List<Widget>();
     for(var i = 0; i < players.length; i++) {
+      print(players[i]);
       list.add(_buildRow(players[i]['jerseyNumber'].toString(), players[i]['name'], players[i]['position']));
     }
 
@@ -83,4 +87,14 @@ class _MyHomePageState extends State<MyHomePage> {
       children: _widgets(),
     );
   }
+
+  void _detailPage() {
+  Navigator.of(context).push(
+    new MaterialPageRoute<void>(
+      builder: (BuildContext context) {
+        
+      }
+    )
+  );
+}
 }
