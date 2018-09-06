@@ -30,6 +30,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   List players;
+  String selectedPlayerName;
+  String selectedPlayerSquadNumber;
+  String selectedPlayerPosition;
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +69,12 @@ class _MyHomePageState extends State<MyHomePage> {
       subtitle: new Text(
         position
       ),
-      onTap: () => {
-
-      },
+      onTap: () {
+        this.selectedPlayerName = name;
+        this.selectedPlayerPosition = position;
+        this.selectedPlayerSquadNumber = squadNumber;
+        _detailPage();
+      }
     );
   }
 
@@ -92,7 +98,25 @@ class _MyHomePageState extends State<MyHomePage> {
   Navigator.of(context).push(
     new MaterialPageRoute<void>(
       builder: (BuildContext context) {
-        
+        return new Scaffold(
+          appBar: new AppBar(
+            title: new Text(selectedPlayerName),
+          ),
+          body: new Container(
+            padding: const EdgeInsets.only(top: 50.0),
+            child: new Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [new CircleAvatar(
+                child: new Text(
+                  selectedPlayerSquadNumber,
+                  style: TextStyle(fontSize: 36.0),
+                ),
+                maxRadius: 56.0,
+              )],
+            ),
+          )
+        );
       }
     )
   );
