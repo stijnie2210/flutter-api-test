@@ -91,9 +91,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Widget> _widgets() {
     List<Widget> list = new List<Widget>();
-    for(var i = 0; i < players.length; i++) {
-      print(players[i]);
-      list.add(_buildRow(players[i]['jerseyNumber'].toString(), players[i]['name'], players[i]['position'], players[i]['nationality']));
+
+    for(const player in players) {
+      print(player);
+      list.add(_buildRow(player['jerseyNumber'].toString(), player['name'], player['position'], player['nationality']));
     }
 
     return list;
