@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-String url = "http://api.football-data.org/v1/teams/678/players";
+final String url = "http://api.football-data.org/v1/teams/678/players";
 
 Future<Competition> fetchCompetition() async {
   final response = 

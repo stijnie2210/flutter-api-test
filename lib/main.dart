@@ -9,11 +9,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Ajax Players',
       theme: new ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: new MyHomePage(title: 'Flutter API test'),
+      home: new MyHomePage(title: 'Ajax Players'),
     );
   }
 }
@@ -29,6 +29,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  List players;
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -40,7 +42,8 @@ class _MyHomePageState extends State<MyHomePage> {
           future: fetchCompetition(),
           builder: (context, snapshot) {
             if(snapshot.hasData) {
-              return getListWidgets(snapshot.data.players);
+              this.players = snapshot.data.players;
+              return _buildListView();
             } else if(snapshot.hasError) {
               return Text('${snapshot.error}');
             }
@@ -52,11 +55,32 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget getListWidgets(List strings) {
+  Widget _buildRow(String squadNumber, String name, String position) {
+    return ListTile(
+      leading: new CircleAvatar(
+        child: new Text(squadNumber)
+      ),
+      title: new Text(
+        name
+      ),
+      subtitle: new Text(
+        position
+      ),
+    );
+  }
+
+  List<Widget> _widgets() {
     List<Widget> list = new List<Widget>();
-    for(var i = 0; i < strings.length; i++) {
-      list.add(new Text(strings[i]['name']));
+    for(var i = 0; i < players.length; i++) {
+      list.add(_buildRow(players[i]['jerseyNumber'].toString(), players[i]['name'], players[i]['position']));
     }
-    return new Row(children: list);
+
+    return list;
+  }
+
+  Widget _buildListView() {
+    return new ListView(
+      children: _widgets(),
+    );
   }
 }
